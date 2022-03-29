@@ -81,7 +81,16 @@ class AdminFormationsController extends AbstractController{
         ]);
     }
     
-    
+    /**
+     * @Route("/admin/suppr/{id}", name="admin.formations.suppr")
+     * @param Formation $formation
+     * @return Response
+     */
+    public function suppr(Formation $formation): Response{
+        $this->om->remove($formation);
+        $this->om->flush();
+        return $this->redirectToRoute("admin.formations");
+    }
     
     
     
@@ -159,4 +168,4 @@ class AdminFormationsController extends AbstractController{
             'niveaux' => $niveaux
         ]);        
     }
-}
+}     
