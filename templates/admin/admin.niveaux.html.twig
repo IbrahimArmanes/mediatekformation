@@ -1,0 +1,39 @@
+{% extends "baseadmin.html.twig" %}
+
+{% block body %}
+    
+    <form class="form-inline mt-1" method="POST" action="">
+        <div class="form-group mr-1 mb-2">
+            <input type="text" class="sm" name="nom">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2 btn-sm">Ajouter</button>
+    </form>
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="text-left align-top" scope="col" >
+                    Nom
+                </th>
+                <th class="align-top" scope="col">
+                    Actions
+                </th>  
+            </tr>
+        </thead>
+        <tbody>
+            {% for niveau in niveaux %}
+                <tr>
+                    <td>
+                        <h5 class="text-primary">
+                            {{ niveau.nom }}
+                        </h5>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-danger text-right" onclick="return confirm('Etes-vous sûr de vouloir supprimer {{ niveau.nom }}?')">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+            
+{% endblock %}

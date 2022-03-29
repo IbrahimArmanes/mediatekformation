@@ -1,27 +1,35 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\admin;
 
+use App\Entity\Formation;
 use App\Repository\FormationRepository;
 use App\Repository\NiveauRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Description of FormationsController
+ * Description of AdminFormationsController
  *
- * @author emds
+ * @author ibay4
  */
-class FormationsController extends AbstractController {
+class AdminFormationsController extends AbstractController{
     
-    private const PAGEFORMATIONS = "pages/formations.html.twig";
+    private const PAGEFORMATIONS = "admin/admin.formations.html.twig";
 
     /**
      *
      * @var FormationRepository
      */
     private $repository;
+    
+    /**
+     * 
+     * @var EntityManagerInterface
+     */
+    private $om;
     
     /**
      *
@@ -33,13 +41,14 @@ class FormationsController extends AbstractController {
      * 
      * @param FormationRepository $repository
      */
-    function __construct(FormationRepository $repository, NiveauRepository $repositoryNiveau) {
+    function __construct(FormationRepository $repository, NiveauRepository $repositoryNiveau, EntityManagerInterface $om) {
         $this->repository = $repository;
         $this->repositoryNiveau = $repositoryNiveau;
+        $this->om = $om;
     }
 
     /**
-     * @Route("/formations", name="formations")
+     * @Route("/admin", name="admin.formations")
      * @return Response
      */
     public function index(): Response{
@@ -51,10 +60,39 @@ class FormationsController extends AbstractController {
             
         ]);
     }
-
+    /**
+     * Ajout d'une nouvelle formation grâce à un formulaire
+     * @Route("/admin/ajout", name="admin.formation.ajout")
+     * @param Request $request
+     * @return Response
+     */
+    public function ajout(Request $request): Response{
+        $formation = new Formation();
+        $formFormation = $this->createForm(FormationType::class, $formation);
+        
+        $formFormation->handleRequest($request);
+        if($formFormation->isSubmitted() && $formVisite->isValid()){
+            $this->om->persist($formation);
+            $this->om->flush();
+            return $this->redirectToRoute(self::PAGEFORMATIONS);
+        }
+        return $this->render("admin/admin.formations.ajout.html.twig",[
+            'formation' => $formation
+        ]);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     /**
-     * @Route("/formations/tri/{champ}/{ordre}", name="formations.sort")
+     * @Route("/admin/tri/{champ}/{ordre}", name="admin.formations.sort")
      * @param type $champ
      * @param type $ordre
      * @return Response
@@ -69,7 +107,7 @@ class FormationsController extends AbstractController {
     }   
         
     /**
-     * @Route("/formations/recherche/{champ}", name="formations.findallcontain")
+     * @Route("/admin/recherche/{champ}", name="admin.formations.findallcontain")
      * @param type $champ
      * @param Request $request
      * @return Response
@@ -84,11 +122,11 @@ class FormationsController extends AbstractController {
                 'niveaux' => $niveaux
             ]);
         }
-        return $this->redirectToRoute("formations");
+        return $this->redirectToRoute("admin");
     }
     
     /**
-     * @Route("/formations/filter/{champ}", name="formations.findallvalue")
+     * @Route("/admin/filter/{champ}", name="admin.formations.findallvalue")
      * @param type $champ
      * @param Request $request
      * @return Response
@@ -103,13 +141,13 @@ class FormationsController extends AbstractController {
                 'niveaux' => $niveaux
             ]);
         }
-        return $this->redirectToRoute("formations");
+        return $this->redirectToRoute("admin");
     }
     
     
     
     /**
-     * @Route("/formations/formation/{id}", name="formations.showone")
+     * @Route("/admin/formation/{id}", name="admin.formations.showone")
      * @param type $id
      * @return Response
      */
@@ -121,5 +159,4 @@ class FormationsController extends AbstractController {
             'niveaux' => $niveaux
         ]);        
     }
-
 }

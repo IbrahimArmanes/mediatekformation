@@ -48,7 +48,7 @@ class FormationRepository extends ServiceEntityRepository
         }else{
             return $this->createQueryBuilder('f')
                     ->where('f.'.$champ.' LIKE :valeur')
-                    ->setParameter('valeur', $valeur)
+                    ->setParameter('valeur', '%'.$valeur.'%')
                     ->orderBy('f.publishedAt', 'DESC')
                     ->getQuery()
                     ->getResult();            
