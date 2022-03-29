@@ -8,7 +8,11 @@
         </div>
         <button type="submit" class="btn btn-primary mb-2 btn-sm">Ajouter</button>
     </form>
-    
+    {% for message in app.flashes('notice') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
     <table class="table table-striped">
         <thead>
             <tr>
@@ -29,7 +33,7 @@
                         </h5>
                     </td>
                     <td>
-                        <a href="#" class="btn btn-danger text-right" onclick="return confirm('Etes-vous sûr de vouloir supprimer {{ niveau.nom }}?')">Supprimer</a>
+                        <a href="{{ path('admin.niveaux.suppr', {id:niveau.id}) }}" class="btn btn-danger text-right" onclick="return confirm('Etes-vous sûr de vouloir supprimer {{ niveau.nom }}?')">Supprimer</a>
                     </td>
                 </tr>
             {% endfor %}

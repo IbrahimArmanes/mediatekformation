@@ -94,10 +94,7 @@ class AdminFormationsController extends AbstractController{
     
     
     
-    
-    
-    
-    
+   
     
     
     /**
@@ -153,7 +150,7 @@ class AdminFormationsController extends AbstractController{
         return $this->redirectToRoute("admin");
     }
     
-    
+
     
     /**
      * @Route("/admin/formation/{id}", name="admin.formations.showone")

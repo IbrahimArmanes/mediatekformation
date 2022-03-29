@@ -105,6 +105,14 @@ class FormationRepository extends ServiceEntityRepository
                 ->getResult();
             
     }
+    
+    public function findAllExist($id): array{
+        return $this->createQueryBuilder('f')
+                ->where("f.niveau = :valeur")
+                ->setParameter('valeur', $id)
+                ->getQuery()
+                ->getResult();
+    }
   
 }
 /**
