@@ -4,7 +4,7 @@
         <thead>
             <tr>
                 <th class="text-left align-top" scope="col">
-                    titre
+                    Titre
                     <a href="{{ path('formations.sort', {champ:'title', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
                     <a href="{{ path('formations.sort', {champ:'title', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>
                     <form class="form-inline mt-1" method="POST" action="{{ path('formations.findallcontain', {champ:'title'}) }}">
@@ -12,10 +12,24 @@
                             <input type="text" class="sm" name="recherche">
                         </div>
                         <input type="hidden" name="_token" value="{{ csrf_token('filtre_title') }}">
-                        <button type="submit" class="btn btn-info mb-2 btn-sm">filtrer</button>
+                        <button type="submit" class="btn btn-info mb-2 btn-sm">Filtrer</button>
                     </form>
                 </th>
                 <th class="text-center align-top" scope="col">
+                    <form method="POST"  action="{{ path('formations.findallvalue', {champ:'niveau'}) }}">
+                        <select name="filtrer">
+                            <option value="">--Niveau--</option>
+                            
+                            {% for niveau in niveaux %}
+                                <option value="{{ niveau.id }}">{{ niveau.nom}}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="hidden" name="_token" value="{{ csrf_token('filtre_niveau') }}">
+                        <button type="submit" class="btn btn-info mb-2 btn-sm">Filtrer</button>
+                    </form>
+                </th>
+                <th class="text-center align-top" scope="col">
+                    
                     <a href="{{ path('formations.sort', {champ:'publishedAt', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
                     <a href="{{ path('formations.sort', {champ:'publishedAt', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>
                  </th>
@@ -33,13 +47,14 @@
                         </h5>
                     </td>
                     <td class="text-center">
-                        {{ formation.publishedatstring }}
+                        
+                            {{ formation.niveau.nom }}
+                        
                     </td>
                     <td class="text-center">
-                        
-                            {{ formation.idNiveauName.nom }}
-                        
+                        {{ formation.publishedatstring }}
                     </td>
+                    
                     <td class="text-center">
                         {% if formation.miniature %}
                             <a href="{{ path('formations.showone', {id:formation.id}) }}">

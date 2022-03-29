@@ -50,11 +50,34 @@ class FormationRepository extends ServiceEntityRepository
                     ->where('f.'.$champ.' LIKE :valeur')
                     ->setParameter('valeur', $valeur)
                     ->orderBy('f.publishedAt', 'DESC')
-                    ->setParameter('valeur', '%'.$valeur.'%')
                     ->getQuery()
                     ->getResult();            
         }
     }
+    
+    /**
+     * Enregistrements dont un champ est exactement une valeur
+     * ou tous les enregistrements si la valeur est vide
+     * @param type $champ
+     * @param type $valeur
+     * @return Formation[]
+     */
+    public function findByValue($champ, $valeur): array{
+        if($valeur==""){
+            return $this->createQueryBuilder('f')
+                    ->orderBy('f.'.$champ, 'ASC')
+                    ->getQuery()
+                    ->getResult();
+        }else{
+            return $this->createQueryBuilder('f')
+                    ->where('f.'.$champ.'= :valeur')
+                    ->setParameter('valeur', $valeur)
+                    ->orderBy('f.publishedAt', 'DESC')
+                    ->getQuery()
+                    ->getResult();            
+        }
+    }
+    
         
     /**
      * Retourne les n formations les plus récentes
@@ -73,19 +96,20 @@ class FormationRepository extends ServiceEntityRepository
      * @param type $id
      * @return string
      */
-    public function findByIdNiveau($id): string {
-        $entityManager = $this->getEntityManager();
-
-        $query = $entityManager->createQuery(
-            'SELECT nom
-            FROM formation
-            JOIN niveau ON formation.id_niveau = niveau.id
-            WHERE id_niveau= :id
-            GROUP BY niveau.nom'
-        )->setParameter('id', $id);
-
-        // returns an array of Product objects
-        return $query->getResult();
-                
+    public function findByNiveauId(): array {
+        return $this->createQueryBuilder('q')
+                ->join('q.niveau', "n")
+                ->groupBy('n.nom')
+                ->orderBy('q.id','ASC')
+                ->getQuery()
+                ->getResult();
+            
     }
+  
 }
+/**
+'SELECT nom 
+            FROM formation
+            JOIN niveau ON formation.id = niveau.id
+            GROUP BY niveau.nom
+            ORDER BY formation.id'

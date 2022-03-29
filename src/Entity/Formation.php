@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\FormationRepository;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints\Collection;
 
@@ -51,13 +52,13 @@ class Formation
 
 
     /**
-     * @ORM\OneToOne(targetEntity=Niveau::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Niveau::class)
      */
-    private $idNiveauName;
+    private $niveau;
     
     public function __construct()
     {
-        $this->idNiveauName = new ArrayCollection();
+        $this->niveau = new Niveau();
     }
 
     
@@ -147,14 +148,14 @@ class Formation
      * 
      * @return Collection|Niveau[]
      */
-    public function getIdNiveauName(): ?Niveau
+    public function getNiveau(): ?Niveau
     {
-        return $this->idNiveauName;
+        return $this->niveau;
     }
 
-    public function setIdNiveauName(?Niveau $idNiveauName): self
+    public function setIdNiveauName(?Niveau $niveau): self
     {
-        $this->idNiveauName = $idNiveauName;
+        $this->niveau = $niveau;
 
         return $this;
     }

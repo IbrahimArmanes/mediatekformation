@@ -5,9 +5,7 @@
         <group>
             <file>file:/C:/wamp64/www/mediatekformation/src/Controller/FormationsController.php</file>
             <file>file:/C:/wamp64/www/mediatekformation/src/Repository/FormationRepository.php</file>
-            <file>file:/C:/wamp64/www/mediatekformation/src/DataFixtures/FormationFixture.php</file>
             <file>file:/C:/wamp64/www/mediatekformation/src/Entity/Formation.php</file>
-            <file>file:/C:/wamp64/www/mediatekformation/templates/pages/accueil.html.twig</file>
             <file>file:/C:/wamp64/www/mediatekformation/templates/pages/formations.html.twig</file>
         </group>
     </open-files>

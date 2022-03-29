@@ -18,6 +18,21 @@ class NiveauRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Niveau::class);
     }
+    
+    /**
+     * Retourne toutes les formations triées sur un champ
+     * @param type $champ
+     * @param type $ordre
+     * @return Niveau[]
+     */
+    public function findAllOrderBy($champ, $ordre): array{
+            return $this->createQueryBuilder('f')
+                    ->orderBy('f.'.$champ, $ordre)
+                    ->getQuery()
+                    ->getResult();
+    }
+    
+    
 
     // /**
     //  * @return Niveau[] Returns an array of Niveau objects
