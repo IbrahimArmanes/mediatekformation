@@ -2,6 +2,7 @@
 namespace App\Controller\admin;
 
 use App\Entity\Formation;
+use App\Form\FormationType;
 use App\Repository\FormationRepository;
 use App\Repository\NiveauRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -76,7 +77,7 @@ class AdminFormationsController extends AbstractController{
             $this->om->flush();
             return $this->redirectToRoute(self::PAGEFORMATIONS);
         }
-        return $this->render("admin/admin.formations.ajout.html.twig",[
+        return $this->render("admin/admin.formation.ajout.html.twig",[
             'formation' => $formation
         ]);
     }
@@ -92,6 +93,26 @@ class AdminFormationsController extends AbstractController{
         return $this->redirectToRoute("admin.formations");
     }
     
+    /**
+     * @Route("/admin/edit/{id}", name="admin.formation.edit")
+     * @param Formation $formation
+     * @param Request $request
+     * @return Response
+     */
+    public function edit(Formation $formation, Request $request): Response{
+        $formFormation = $this->createForm(FormationType::class, $formation);
+        
+        $formFormation->handleRequest($request);
+        if($formFormation->isSubmitted() && $formFormation->isValid()){
+            $this->om->flush();
+            return $this->redirectToRoute('admin.formations');
+        }
+        
+        return $this->render("admin/admin.formation.edit.html.twig",[
+            'formation' => $formation,
+            'formformation' => $formFormation->createView()
+        ]);
+    }
     
     
    
