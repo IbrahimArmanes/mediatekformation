@@ -6,6 +6,7 @@ use App\Repository\FormationRepository;
 use App\Repository\NiveauRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -71,6 +72,20 @@ class AdminNiveauxController extends AbstractController{
         }
         $this->addFlash('notice', 'Impossible de supprimer ce niveau. Il est utilisé pour (au moins) une des formations.');
         return $this->redirectToRoute("admin.niveaux");
+        
+    }
+    /**
+     * @Route("/admin/niveau/ajout", name="admin.niveau.ajout")
+     * @param Request $request
+     * @return Response
+     */
+    public function ajout(Request $request): Response{
+        $nomNiveau = $request->get("nom");
+        $niveau = new Niveau();
+        $niveau->setNom($nomNiveau);
+        $this->om->persist($niveau);
+        $this->om->flush();
+        return $this->redirectToRoute('admin.niveaux');
         
     }
 }

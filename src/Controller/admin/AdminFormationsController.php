@@ -72,17 +72,19 @@ class AdminFormationsController extends AbstractController{
         $formFormation = $this->createForm(FormationType::class, $formation);
         
         $formFormation->handleRequest($request);
-        if($formFormation->isSubmitted() && $formVisite->isValid()){
+        if($formFormation->isSubmitted() && $formFormation->isValid()){
             $this->om->persist($formation);
             $this->om->flush();
             return $this->redirectToRoute(self::PAGEFORMATIONS);
         }
         return $this->render("admin/admin.formation.ajout.html.twig",[
-            'formation' => $formation
+            'formation' => $formation,
+            'formformation' => $formFormation->createView()
         ]);
     }
     
     /**
+     * Suppression d'une formation
      * @Route("/admin/suppr/{id}", name="admin.formations.suppr")
      * @param Formation $formation
      * @return Response
@@ -90,10 +92,11 @@ class AdminFormationsController extends AbstractController{
     public function suppr(Formation $formation): Response{
         $this->om->remove($formation);
         $this->om->flush();
-        return $this->redirectToRoute("admin.formations");
+        return $this->redirectToRoute(self::PAGEFORMATIONS);
     }
     
     /**
+     * Modification d'une formation
      * @Route("/admin/edit/{id}", name="admin.formation.edit")
      * @param Formation $formation
      * @param Request $request
@@ -105,7 +108,7 @@ class AdminFormationsController extends AbstractController{
         $formFormation->handleRequest($request);
         if($formFormation->isSubmitted() && $formFormation->isValid()){
             $this->om->flush();
-            return $this->redirectToRoute('admin.formations');
+            return $this->redirectToRoute(self::PAGEFORMATIONS);
         }
         
         return $this->render("admin/admin.formation.edit.html.twig",[
