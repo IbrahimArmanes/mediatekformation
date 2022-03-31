@@ -27,14 +27,12 @@ class FormationType extends AbstractType
             ->add('videoId', null, [
                 'label' => 'ID de la vidéo'
             ])
-            /**->add('niveau', EntityType::class, [
+            ->add('niveau', EntityType::class, [
                 'class'=> Niveau::class,
                 'choice_label' => 'nom',
-                'multiple' => true,
-                'required' => false
+                'multiple' => false,
+                'required' => true
             ])
-             * 
-             */
             ->add('submit', SubmitType::class, [
                 "label" => "Enregistrer"
             ])

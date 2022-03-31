@@ -2,12 +2,10 @@
 
 namespace App\Entity;
 
+use App\Entity\Niveau;
 use App\Repository\FormationRepository;
 use DateTimeInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints\Collection;
-
 /**
  * @ORM\Entity(repositoryClass=FormationRepository::class)
  */
@@ -52,15 +50,11 @@ class Formation
 
 
     /**
-     * @ORM\ManyToOne(targetEntity=Niveau::class)
+     * Niveau::class
+     * @ORM\ManyToOne(targetEntity="Niveau")
      */
     private $niveau;
     
-    public function __construct()
-    {
-        $this->niveau = new Niveau();
-    }
-
     
 
     public function getId(): ?int
@@ -146,14 +140,14 @@ class Formation
     
     /**
      * 
-     * @return Collection|Niveau[]
+     * @return Niveau
      */
     public function getNiveau(): ?Niveau
     {
         return $this->niveau;
     }
 
-    public function setIdNiveauName(?Niveau $niveau): self
+    public function setNiveau(?Niveau $niveau): self
     {
         $this->niveau = $niveau;
 
