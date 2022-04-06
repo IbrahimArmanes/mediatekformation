@@ -16,7 +16,8 @@ class FormationType extends AbstractType
     {
         $builder
             ->add('publishedAt', null,[
-                'label' => "Date de publication"
+                'label' => "Date de publication",
+                'required'=>"true"
             ])
             ->add('title', null, [
                 'label' => "Titre de la formation"

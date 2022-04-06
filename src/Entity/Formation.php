@@ -6,6 +6,8 @@ use App\Entity\Niveau;
 use App\Repository\FormationRepository;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=FormationRepository::class)
  */
@@ -34,12 +36,12 @@ class Formation
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=46, nullable=true)
+     * @ORM\Column(type="string", length=400, nullable=true)
      */
     private $miniature;
 
     /**
-     * @ORM\Column(type="string", length=48, nullable=true)
+     * @ORM\Column(type="string", length=400, nullable=true)
      */
     private $picture;
 
@@ -55,8 +57,54 @@ class Formation
      */
     private $niveau;
     
+    /**
+     * @Assert\Callback
+     * @param ExecutionContextInterface $context
+     */
+    public function validate(ExecutionContextInterface $context)
+    {
+        // check if the image is the right size
+        try{
+            $picture = $this->getPicture();
+            if($picture!=""){
+                $imageSizeP = getimagesize($picture);
+                if ($imageSizeP[0]!=640 && $imageSizeP[1]!=480){
+                    $context->buildViolation("Cette image n'a pas une résolution de 640x480 ")
+                        ->atPath('picture')
+                        ->addViolation()
+                    ;
+                }    
+            }    
+        } catch (Exception $ex) {
+            $context->buildViolation("Le format n'est pas accepté ")
+                    ->atPath('picture')
+                    ->addViolation();
+        }
+        try{
+            $miniature = $this->getMiniature();
+            if($miniature!=""){
+                $imageSizeM = getimagesize($miniature);
+                if ($imageSizeM[0]!=120 && $imageSizeM[1]!=90){
+                $context->buildViolation("Cette image n'a pas une résolution de 120x90 ")
+                    ->atPath('miniature')
+                    ->addViolation()
+                ;
+                }
+            }
+        } catch (Exception $ex) {
+            $context->buildViolation("Le format n'est pas accepté ")
+                    ->atPath('miniature')
+                    ->addViolation();
+        }
+        
+        $title = $this->getTitle();
+        if($title==''){
+            $context->buildViolation("Insérez un titre")
+                    ->atPath('title')
+                    ->addViolation();
+        }
+    }
     
-
     public function getId(): ?int
     {
         return $this->id;
