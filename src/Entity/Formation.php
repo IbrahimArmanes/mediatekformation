@@ -64,39 +64,41 @@ class Formation
     public function validate(ExecutionContextInterface $context)
     {
         // check if the image is the right size
-        try{
-            $picture = $this->getPicture();
-            if($picture!=""){
-                $imageSizeP = getimagesize($picture);
+        $picture = $this->getPicture();
+        if (!(filter_var($picture, FILTER_VALIDATE_URL) == false)){
+            $imageSizeP = getimagesize($picture);
+            if(!($imageSizeP==false)){
                 if ($imageSizeP[0]!=640 && $imageSizeP[1]!=480){
                     $context->buildViolation("Cette image n'a pas une résolution de 640x480 ")
-                        ->atPath('picture')
-                        ->addViolation()
-                    ;
-                }    
-            }    
-        } catch (Exception $ex) {
-            $context->buildViolation("Le format n'est pas accepté ")
-                    ->atPath('picture')
-                    ->addViolation();
-        }
-        try{
-            $miniature = $this->getMiniature();
-            if($miniature!=""){
-                $imageSizeM = getimagesize($miniature);
-                if ($imageSizeM[0]!=120 && $imageSizeM[1]!=90){
-                $context->buildViolation("Cette image n'a pas une résolution de 120x90 ")
-                    ->atPath('miniature')
-                    ->addViolation()
-                ;
-                }
+                                ->atPath('picture')
+                                ->addViolation()
+                            ;
+                }                        
             }
-        } catch (Exception $ex) {
-            $context->buildViolation("Le format n'est pas accepté ")
-                    ->atPath('miniature')
-                    ->addViolation();
+            
+        }else{
+            $context->buildViolation("Le lien de l'image est incorrect ")
+                        ->atPath('picture')
+                        ->addViolation();    
         }
-        
+        $miniature = $this->getMiniature();
+        if (!(filter_var($miniature, FILTER_VALIDATE_URL) == false)){
+            $imageSizeM = getimagesize($miniature);
+            if(!($imageSizeM==false)){
+                if ($imageSizeM[0]!=120 && $imageSizeM[1]!=90){
+                    $context->buildViolation("Cette image n'a pas une résolution de 120x90 ")
+                                ->atPath('miniature')
+                                ->addViolation()
+                            ;
+                }       
+            }
+            
+                             
+        }else{
+            $context->buildViolation("Le lien de l'image est incorrect ")
+                        ->atPath('miniature')
+                        ->addViolation();    
+        }
         $title = $this->getTitle();
         if($title==''){
             $context->buildViolation("Insérez un titre")

@@ -115,9 +115,3 @@ class FormationRepository extends ServiceEntityRepository
     }
   
 }
-/**
-'SELECT nom 
-            FROM formation
-            JOIN niveau ON formation.id = niveau.id
-            GROUP BY niveau.nom
-            ORDER BY formation.id'

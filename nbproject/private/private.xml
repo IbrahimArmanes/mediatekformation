@@ -6,13 +6,10 @@
             <file>file:/C:/wamp64/www/mediatekformation/src/Repository/FormationRepository.php</file>
             <file>file:/C:/wamp64/www/mediatekformation/src/Controller/admin/AdminFormationsController.php</file>
             <file>file:/C:/wamp64/www/mediatekformation/templates/admin/admin.formation.edit.html.twig</file>
-            <file>file:/C:/wamp64/www/mediatekformation/src/Repository/NiveauRepository.php</file>
             <file>file:/C:/wamp64/www/mediatekformation/templates/admin/admin.formations.html.twig</file>
             <file>file:/C:/wamp64/www/mediatekformation/templates/admin/admin.formation.ajout.html.twig</file>
-            <file>file:/C:/wamp64/www/mediatekformation/templates/admin/admin.niveaux.html.twig</file>
             <file>file:/C:/wamp64/www/mediatekformation/src/Entity/Formation.php</file>
             <file>file:/C:/wamp64/www/mediatekformation/src/Form/FormationType.php</file>
-            <file>file:/C:/wamp64/www/mediatekformation/src/Controller/admin/AdminNiveauxController.php</file>
         </group>
     </open-files>
 </project-private>
