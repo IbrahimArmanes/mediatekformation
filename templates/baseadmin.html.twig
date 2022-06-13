@@ -29,4 +29,20 @@
     </div>
 {% endblock %}
 {% block body %}{% endblock %}
-{% block javascripts %}{% endblock %}
+{% block javascripts %}
+ <script>
+ function validationForm(){
+ var miniature = document.getElementById('formation_miniature');
+ var miniaturevalue = miniature.value;
+ if(miniaturevalue.search("//") >= 0){
+ miniature.value = miniaturevalue.split("//")[1];
+ }
+ var picture = document.getElementById('formation_picture');
+ var picturevalue = picture.value;
+ if(picturevalue.search("//") >= 0){
+ picture.value = picturevalue.split("//")[1];
+ }
+ return true;
+ }
+ </script>
+{% endblock %}

@@ -37,6 +37,20 @@ class FormationType extends AbstractType
             ->add('submit', SubmitType::class, [
                 "label" => "Enregistrer"
             ])
+            ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+             $infos = $event->getData();
+             $picture = $infos->getPicture();
+             if (strlen($picture) > 0 && strpos($picture, "//") === false) {
+             $infos->setPicture("http://" . $picture);
+             }
+             $miniature = $infos->getMiniature();
+             if (strlen($miniature) > 0 && strpos($miniature, "//") === false) {
+             $infos->setMiniature("http://" . $miniature);
+             }
+             $event->setData($infos);
+            })                    
+                    
+                    
         ;
     }
 
